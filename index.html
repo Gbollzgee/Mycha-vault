@@ -38,11 +38,9 @@
   .login-card h1 { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; margin-bottom:6px; background:linear-gradient(135deg,var(--gold),var(--gold2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
   .login-card>p { color:var(--muted); font-size:0.9rem; margin-bottom:36px; }
   .input-wrap { position:relative; margin-bottom:16px; }
-  .input-wrap input { width:100%; padding:16px 52px 16px 20px; background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:1rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; letter-spacing:0.15em; }
+  .input-wrap input { width:100%; padding:16px 20px; background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--radius); color:var(--text); font-size:1rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; letter-spacing:0.15em; }
   .input-wrap input:focus { border-color:var(--gold); }
   .input-wrap input::placeholder { letter-spacing:0; color:var(--muted); }
-  .toggle-pw { position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; color:var(--muted); cursor:pointer; font-size:1.1rem; padding:4px; transition:color 0.2s; }
-  .toggle-pw:hover { color:var(--gold); }
   .btn-login { width:100%; padding:16px; background:linear-gradient(135deg,var(--gold),var(--gold2)); border:none; border-radius:var(--radius); color:#0a0a0f; font-size:1rem; font-weight:600; font-family:'DM Sans',sans-serif; cursor:pointer; transition:opacity 0.2s,transform 0.15s; margin-top:8px; }
   .btn-login:hover { opacity:0.9; transform:translateY(-1px); }
   .login-error { color:var(--danger); font-size:0.85rem; margin-top:12px; display:none; animation:shake 0.4s ease; }
@@ -184,7 +182,6 @@
     <p>Enter your password to access your files</p>
     <div class="input-wrap">
       <input type="password" id="pw-input" placeholder="Enter password…" />
-      <button class="toggle-pw" onclick="togglePw()" id="eye-btn">👁</button>
     </div>
     <button class="btn-login" onclick="tryLogin()">Unlock Vault</button>
     <div class="login-error" id="login-err">❌ Incorrect password. Try again.</div>
@@ -331,10 +328,6 @@ async function boot(){
 boot();
 
 // ═══════════════ LOGIN ═══════════════
-function togglePw(){
-  const i=document.getElementById('pw-input'),b=document.getElementById('eye-btn');
-  if(i.type==='password'){i.type='text';b.textContent='🙈';}else{i.type='password';b.textContent='👁';}
-}
 async function tryLogin(){
   if(document.getElementById('pw-input').value===PASS){
     document.getElementById('login-page').style.display='none';
