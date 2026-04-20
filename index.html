@@ -215,9 +215,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
     <div class="sidebar-bottom">
       <div class="cloud-badge">☁️ Synced with Cloudinary</div>
-      <a href="https://console.cloudinary.com/console/c-dcaigjzk4/media_library/search?q=folder%3Amyvault&view_mode=mosaic" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
-        <div class="nav-btn"><span class="nav-icon">🗂️</span> Manage Cloud Files</div>
-      </a>
       <button class="nav-btn" onclick="logout()"><span class="nav-icon">🚪</span> Lock Vault</button>
     </div>
   </div>
@@ -284,11 +281,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <button class="modal-close" onclick="closeModal('del-modal')">✕</button>
     </div>
     <div class="modal-body">
-      <p style="color:var(--muted);margin-bottom:12px;">Are you sure you want to remove <strong id="del-name" style="color:var(--text)"></strong> from your vault?</p>
-      <p style="color:var(--muted);font-size:0.82rem;margin-bottom:20px;">This removes it from your vault view. To permanently delete it from the cloud, use the <a href="https://console.cloudinary.com/console/c-dcaigjzk4/media_library/search?q=folder%3Amyvault&view_mode=mosaic" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;">☁️ Cloudinary Media Library</a>.</p>
+      <p style="color:var(--muted);margin-bottom:20px;">Are you sure you want to delete <strong id="del-name" style="color:var(--text)"></strong>? This cannot be undone.</p>
       <div class="btn-row">
         <button class="btn btn-ghost" onclick="closeModal('del-modal')">Cancel</button>
-        <button class="btn btn-danger" onclick="confirmDelete()">Remove from Vault</button>
+        <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
       </div>
     </div>
   </div>
@@ -794,7 +790,7 @@ async function confirmDelete(){
   await dbDel('files',st.deletingId);
   st.files=st.files.filter(x=>x.id!==st.deletingId);
   closeModal('del-modal'); renderContent();
-  toast('🗑 Removed from vault. Visit Cloudinary Media Library to delete from cloud.');
+  toast('🗑 Removed from vault. To fully delete from cloud, visit your Cloudinary dashboard.');
 }
 
 // ═══════════════════════════════════════════════
