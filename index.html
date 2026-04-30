@@ -593,12 +593,12 @@ import { getFirestore, collection, doc,
 //  FIREBASE CONFIG
 // ═══════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey:            "AIzaSyA7wV1kqYMoE0Wt834R0p8dvIurwwz-zJI",
-  authDomain:        "my-vault-fafc5.firebaseapp.com",
-  projectId:         "my-vault-fafc5",
-  storageBucket:     "my-vault-fafc5.appspot.com",
-  messagingSenderId: "1076932455218",
-  appId:             "1:1076932455218:web:34cc758cb7d633c28c852b"
+  apiKey:            "AIzaSyCJTNZO0kIYdrGHHRycHIfC1nJ0Km4c4ks",
+  authDomain:        "my-private-vault-6041b.firebaseapp.com",
+  projectId:         "my-private-vault-6041b",
+  storageBucket:     "my-private-vault-6041b.firebasestorage.app",
+  messagingSenderId: "1041624167930",
+  appId:             "1:1041624167930:web:8d5a367866074dbe2ee043"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -660,21 +660,24 @@ window.logout = function(){
 // ═══════════════════════════════════════════════
 function startListeners(){
   toast('🔄 Connecting to cloud…');
+  let firstLoad = true;
 
   // Folders listener
   const foldersQ = query(collection(db,'folders'), orderBy('name'));
   unsubFolders = onSnapshot(foldersQ, snap=>{
     st.folders = snap.docs.map(d=>({id:d.id, ...d.data()}));
     renderContent();
-    toast('✅ Vault loaded from cloud');
+    if(firstLoad){ toast('✅ Vault synced — ' + st.files.length + ' files loaded'); firstLoad=false; }
   }, err=>{
     console.error('Folders sync error:', err.code, err.message);
     if(err.code === 'permission-denied'){
-      toast('❌ Permission denied — check Firestore rules');
+      toast('❌ Firestore rules not set — go to Firebase → Firestore → Rules and publish');
     } else if(err.code === 'unavailable'){
-      toast('⚠️ Offline — showing cached data');
+      toast('⚠️ No internet — showing cached data');
+    } else if(err.code === 'failed-precondition'){
+      toast('⚠️ Database index needed — check console');
     } else {
-      toast('❌ Sync error: ' + err.code);
+      toast('❌ Cloud error: ' + err.code + ' — check internet connection');
     }
   });
 
@@ -685,7 +688,7 @@ function startListeners(){
     renderContent();
   }, err=>{
     console.error('Files sync error:', err.code, err.message);
-    toast('❌ Files sync error: ' + err.code);
+    toast('❌ Files error: ' + err.code);
   });
 }
 
